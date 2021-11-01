@@ -21,7 +21,7 @@ Graph ABC::coloring(int k, int e, int o)
 	Graph emptyGraph;
 	g.copy(emptyGraph);
 	Graph result;
-	while (minC > k && t < 1000 )
+	while (minC > k && t < 20 )
 	{
 		t++;
 		employeds.clear();
@@ -55,7 +55,8 @@ Graph ABC::coloring(int k, int e, int o)
 
 			sum = 0;
 			std::vector<int> index1 = index;
-			for (int i = 0; i < employeds.size(); i++)
+			int q = employeds.size();
+			for (int i = 0; i < q; i++)
 			{
 				if (index1.size() != 0)
 				{
@@ -170,7 +171,7 @@ Graph ABC::coloring(int k, int e, int o)
 							c++;
 						}
 					}
-					index.erase(find(index.begin(), index.end(), onlookers[i].position));
+					//index.erase(find(index.begin(), index.end(), onlookers[i].position));
 					int pos = onlookers[i].position;
 					for (int j = 0; j <= i; j++)
 					{
@@ -193,6 +194,16 @@ Graph ABC::coloring(int k, int e, int o)
 					onlookers[j].position = -1;
 				}
 			}
+			bool isColored = true;
+			for (int j = 0; j < vertices.size(); j++)
+			{
+				if (vertices[j].color == -1)
+					isColored = false;
+				if (vertices[j].color != -1 && find(index.begin(), index.end(), j) != index.end())
+					index.erase(find(index.begin(), index.end(), j));
+			}
+			if (isColored)
+				break;
 		}
 		for (int j = 0; j < vertices.size(); j++)
 		{
