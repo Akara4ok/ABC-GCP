@@ -6,11 +6,12 @@ ABC::ABC(Graph g)
 	this->g = g;
 	srand(time(NULL));
 	numberOfVertex = g.getNumberofVertices();
-	allColors = 20;
+	allColors = 100;
 }
 
 Graph ABC::coloring(int k, int e, int o)
 {
+	k = k - 1;
 	int sum = 0;
 	int** m = g.getAdjMatrix();
 	int coloredVertices;
@@ -20,7 +21,7 @@ Graph ABC::coloring(int k, int e, int o)
 	Graph emptyGraph;
 	g.copy(emptyGraph);
 	Graph result;
-	while (minC > k && t < 20 )
+	while (minC > k && t < 1000 )
 	{
 		t++;
 		employeds.clear();
@@ -56,11 +57,18 @@ Graph ABC::coloring(int k, int e, int o)
 			std::vector<int> index1 = index;
 			for (int i = 0; i < employeds.size(); i++)
 			{
-				int l = rand() % index1.size();
-				int k = index1[l];
-				index1.erase(index1.begin() + l);
-				employeds[i].position = k;
-				sum = sum + vertices[k].nectar;
+				if (index1.size() != 0)
+				{
+					int l = rand() % index1.size();
+					int k = index1[l];
+					index1.erase(index1.begin() + l);
+					employeds[i].position = k;
+					sum = sum + vertices[k].nectar;
+				}
+				else
+				{
+					employeds.pop_back();
+				}
 			}
 			p.clear();
 			bool fl = true;
@@ -82,7 +90,7 @@ Graph ABC::coloring(int k, int e, int o)
 				float pt;
 				while (onlookers[i].position == -1)
 				{
-					pt = ((float)(rand() % 100 + 1) / 100);
+					pt = ((float)(rand() % 10000 + 1) / 10000);
 					for (int j = 0; j < p.size(); j++)
 					{
 						if (p[j] >= pt)
@@ -120,7 +128,7 @@ Graph ABC::coloring(int k, int e, int o)
 						max = c;
 					c++;
 				}
-				vertices[onlookers[i].position].nectar--;
+				//vertices[onlookers[i].position].nectar--;
 				bool isAllColored = true;
 				for (int j = 0; j < vertices[onlookers[i].position].adjVertices.size(); j++)
 				{

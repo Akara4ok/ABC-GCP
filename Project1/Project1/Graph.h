@@ -19,4 +19,5 @@ public:
 	void setVertices(std::vector<Vertex> v);
 	void pintGraph();
 	void copy(Graph& g);
+	void generate();
 };
